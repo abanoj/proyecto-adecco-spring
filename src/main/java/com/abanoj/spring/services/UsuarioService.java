@@ -20,7 +20,6 @@ public class UsuarioService {
 		return this.usuarioRepository.findAll();
 	}
 	
-
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
