@@ -1,10 +1,10 @@
 package com.abanoj.spring.entities;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Alumno extends Usuario{
-	private static final TipoUsuario TIPO = new TipoUsuario(1);
+	private static final int TIPO = 1;
 	
 	public Alumno() {
 		super();

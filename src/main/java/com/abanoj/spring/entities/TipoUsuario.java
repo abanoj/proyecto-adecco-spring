@@ -1,8 +1,9 @@
 package com.abanoj.spring.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "tipo_usuario" )
 public class TipoUsuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,6 +1,6 @@
 package com.abanoj.spring.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,13 +12,15 @@ public class Usuario {
 	protected String dni;
 	protected String nombre;
 	protected String apellido;
+	@Column(name = "usuario")
 	protected String user;
 	protected String contrasena;
+	protected String email;
 	protected String foto;
 	protected String direccion;
 	protected String telefono;
-	@ManyToOne
-	protected TipoUsuario tipoUsuario;
+	@Column(name = "tipo")
+	protected int tipoUsuario;
 	protected boolean activo;
 	
 	public Usuario() {
@@ -39,7 +41,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 
-	public Usuario(String dni, String nombre, String apellido, String user, String contrasena, TipoUsuario tipoUsuario,
+	public Usuario(String dni, String nombre, String apellido, String user, String contrasena, int tipoUsuario,
 			boolean activo) {
 		this.dni = dni;
 		this.nombre = nombre;
@@ -51,7 +53,7 @@ public class Usuario {
 	}
 
 	
-	public Usuario(int id, String dni, String nombre, String apellido, String user, String contrasena, TipoUsuario tipoUsuario,
+	public Usuario(int id, String dni, String nombre, String apellido, String user, String contrasena, int tipoUsuario,
 			boolean activo) {
 		this.id = id;
 		this.dni = dni;
@@ -64,7 +66,7 @@ public class Usuario {
 	}
 
 	public Usuario(int id, String dni, String nombre, String apellido, String user, String contrasena, String foto,
-			String direccion, String telefono, TipoUsuario tipoUsuario, boolean activo) {
+			String direccion, String telefono, int tipoUsuario, boolean activo) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
@@ -133,10 +135,10 @@ public class Usuario {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public TipoUsuario getTipoUsuario() {
+	public int getTipoUsuario() {
 		return tipoUsuario;
 	}
-	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+	public void setTipoUsuario(int tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 	public boolean isActivo() {
