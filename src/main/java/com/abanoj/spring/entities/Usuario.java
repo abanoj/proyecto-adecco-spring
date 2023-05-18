@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +12,7 @@ public class Usuario {
 	protected String nombre;
 	protected String apellido;
 	@Column(name = "usuario")
-	protected String user;
+	protected String username;
 	protected String contrasena;
 	protected String email;
 	protected String foto;
@@ -36,42 +35,42 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 	
-	public Usuario(String user, String contrasena) {
-		this.user = user;
+	public Usuario(String username, String contrasena) {
+		this.username = username;
 		this.contrasena = contrasena;
 	}
 
-	public Usuario(String dni, String nombre, String apellido, String user, String contrasena, int tipoUsuario,
+	public Usuario(String dni, String nombre, String apellido, String username, String contrasena, int tipoUsuario,
 			boolean activo) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.user = user;
+		this.username = username;
 		this.contrasena = contrasena;
 		this.tipoUsuario = tipoUsuario;
 		this.activo = activo;
 	}
 
 	
-	public Usuario(int id, String dni, String nombre, String apellido, String user, String contrasena, int tipoUsuario,
+	public Usuario(int id, String dni, String nombre, String apellido, String username, String contrasena, int tipoUsuario,
 			boolean activo) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.user = user;
+		this.username = username;
 		this.contrasena = contrasena;
 		this.tipoUsuario = tipoUsuario;
 		this.activo = activo;
 	}
 
-	public Usuario(int id, String dni, String nombre, String apellido, String user, String contrasena, String foto,
+	public Usuario(int id, String dni, String nombre, String apellido, String username, String contrasena, String foto,
 			String direccion, String telefono, int tipoUsuario, boolean activo) {
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.user = user;
+		this.username = username;
 		this.contrasena = contrasena;
 		this.foto = foto;
 		this.direccion = direccion;
@@ -105,11 +104,11 @@ public class Usuario {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public String getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getContrasena() {
 		return contrasena;
@@ -117,6 +116,13 @@ public class Usuario {
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getFoto() {
 		return foto;
 	}
@@ -146,6 +152,13 @@ public class Usuario {
 	}
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", username="
+				+ username + ", contrasena=" + contrasena + ", email=" + email + ", foto=" + foto + ", direccion="
+				+ direccion + ", telefono=" + telefono + ", tipoUsuario=" + tipoUsuario + ", activo=" + activo + "]";
 	}
 	
 	
