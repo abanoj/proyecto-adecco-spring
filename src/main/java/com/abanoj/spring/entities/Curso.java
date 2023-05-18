@@ -1,5 +1,8 @@
 package com.abanoj.spring.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,16 +13,26 @@ public class Curso {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String nombre;
-	private int idA1;
-	private int idA2;
-	private int idA3;
-	private int idA4;
-	private int idA5;
-	private int idA6;
-	private int idA7;
-	private int idA8;
-	private int idA9;
-	private int idA10;
+	@Column(name = "id_a1")
+	private Integer idA1;
+	@Column(name = "id_a2")
+	private Integer idA2;
+	@Column(name = "id_a3")
+	private Integer idA3;
+	@Column(name = "id_a4")
+	private Integer idA4;
+	@Column(name = "id_a5")
+	private Integer idA5;
+	@Column(name = "id_a6")
+	private Integer idA6;
+	@Column(name = "id_a7")
+	private Integer idA7;
+	@Column(name = "id_a8")
+	private Integer idA8;
+	@Column(name = "id_a9")
+	private Integer idA9;
+	@Column(name = "id_a10")
+	private Integer idA10;
 	
 	public Curso() {}
 
@@ -27,7 +40,7 @@ public class Curso {
 		this.id = id;
 	}
 	
-	public Curso(String nombre, int ...idA) {
+	public Curso(String nombre, Integer ...idA) {
 		this.nombre = nombre;
 		for (int i = 0; i < idA.length; i++) {
 			switch (i+1) {
@@ -92,7 +105,7 @@ public class Curso {
 		this.nombre = nombre;
 	}
 
-	public int getIdA1() {
+	public Integer getIdA1() {
 		return idA1;
 	}
 
@@ -100,7 +113,7 @@ public class Curso {
 		this.idA1 = idA1;
 	}
 
-	public int getIdA2() {
+	public Integer getIdA2() {
 		return idA2;
 	}
 
@@ -108,7 +121,7 @@ public class Curso {
 		this.idA2 = idA2;
 	}
 
-	public int getIdA3() {
+	public Integer getIdA3() {
 		return idA3;
 	}
 
@@ -116,7 +129,7 @@ public class Curso {
 		this.idA3 = idA3;
 	}
 
-	public int getIdA4() {
+	public Integer getIdA4() {
 		return idA4;
 	}
 
@@ -124,7 +137,7 @@ public class Curso {
 		this.idA4 = idA4;
 	}
 
-	public int getIdA5() {
+	public Integer getIdA5() {
 		return idA5;
 	}
 
@@ -132,7 +145,7 @@ public class Curso {
 		this.idA5 = idA5;
 	}
 
-	public int getIdA6() {
+	public Integer getIdA6() {
 		return idA6;
 	}
 
@@ -140,7 +153,7 @@ public class Curso {
 		this.idA6 = idA6;
 	}
 
-	public int getIdA7() {
+	public Integer getIdA7() {
 		return idA7;
 	}
 
@@ -148,7 +161,7 @@ public class Curso {
 		this.idA7 = idA7;
 	}
 
-	public int getIdA8() {
+	public Integer getIdA8() {
 		return idA8;
 	}
 
@@ -156,7 +169,7 @@ public class Curso {
 		this.idA8 = idA8;
 	}
 
-	public int getIdA9() {
+	public Integer getIdA9() {
 		return idA9;
 	}
 
@@ -164,7 +177,7 @@ public class Curso {
 		this.idA9 = idA9;
 	}
 
-	public int getIdA10() {
+	public Integer getIdA10() {
 		return idA10;
 	}
 
@@ -172,6 +185,26 @@ public class Curso {
 		this.idA10 = idA10;
 	}
 
-	
+	public List<Integer> getAsignaturas(){
+		List<Integer> aux = new ArrayList<Integer>();
+		if(idA1 != null) aux.add(idA1);
+		if(idA2 != null) aux.add(idA2);
+		if(idA3 != null) aux.add(idA3);
+		if(idA4 != null) aux.add(idA4);
+		if(idA5 != null) aux.add(idA5);
+		if(idA6 != null) aux.add(idA6);
+		if(idA7 != null) aux.add(idA7);
+		if(idA8 != null) aux.add(idA8);
+		if(idA9 != null) aux.add(idA9);
+		if(idA10 != null) aux.add(idA10);
+		return aux;
+	}
+
+	@Override
+	public String toString() {
+		return "Curso [id=" + id + ", nombre=" + nombre + ", idA1=" + idA1 + ", idA2=" + idA2 + ", idA3=" + idA3
+				+ ", idA4=" + idA4 + ", idA5=" + idA5 + ", idA6=" + idA6 + ", idA7=" + idA7 + ", idA8=" + idA8
+				+ ", idA9=" + idA9 + ", idA10=" + idA10 + "]";
+	}
 
 }

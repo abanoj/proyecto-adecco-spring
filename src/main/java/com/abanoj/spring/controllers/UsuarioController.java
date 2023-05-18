@@ -31,7 +31,7 @@ public class UsuarioController {
 		return repository.findByUsername(username);
 	}
 	
-	@PutMapping("/{username}")
+	@PutMapping("/pass/{username}")
 	public Usuario updatePassword(@PathVariable("username") String username, @RequestBody Usuario usuario) {
 		Usuario usuarioAux = findByUsername(username).get(0);
 		usuarioAux.setContrasena(usuario.getContrasena());

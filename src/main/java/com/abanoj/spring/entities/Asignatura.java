@@ -12,9 +12,12 @@ public class Asignatura {
 	@Column(name = "id_profesor1")
 	private int titular;
 	@Column(name = "id_profesor2", nullable = true)
-	private int suplente;
+	private Integer suplente;
 	
-
+	public Asignatura() {
+		
+	}
+	
 	public Asignatura(int id) {
 		this.id = id;
 	}
@@ -30,14 +33,19 @@ public class Asignatura {
 		this.suplente = suplente;
 	}
 
+
+	public Asignatura(int id, String nombre, int titular) {
+		this.id = id;
+		this.nombre = nombre;
+		this.titular = titular;
+	}
+		
 	public Asignatura(int id, String nombre, int titular, int suplente) {
 		this.id = id;
 		this.nombre = nombre;
 		this.titular = titular;
 		this.suplente = suplente;
 	}
-	
-	
 	
 	public String getNombre() {
 		return nombre;
@@ -59,11 +67,16 @@ public class Asignatura {
 	public void setTitular(int titular) {
 		this.titular = titular;
 	}
-	public int getSuplente() {
+	public Integer getSuplente() {
 		return suplente;
 	}
 	public void setSuplente(int suplente) {
 		this.suplente = suplente;
+	}
+
+	@Override
+	public String toString() {
+		return "Asignatura [id=" + id + ", nombre=" + nombre + ", titular=" + titular + ", suplente=" + suplente + "]";
 	}
 	
 	
