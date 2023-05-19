@@ -28,15 +28,4 @@ public class NotaService {
 		this.asignaturaRepository = asignaturaRepository;
 	}
 	
-	//Mejorar para que filtre también por el curso y no solo la asignatura
-	public List<Nota> obtenerNotasAsignaturaCurso(int idC, int idA){
-		Curso curso = cursoRepository.findById(idC).orElse(null);
-		if(curso != null && curso.getAsignaturas().contains(idA)) {
-			Asignatura asignatura = asignaturaRepository.findById(idA).orElse(null);
-			if(asignatura != null) {
-				return notaRepository.findAllByIdAsignatura(idA);
-			}
-		}
-		return Collections.emptyList();
-	}
 }
