@@ -8,5 +8,6 @@ import com.abanoj.spring.entities.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	Usuario findByUsername(@Param("username") String username);
 	Usuario findByUsernameAndContrasena(@Param("username") String username, @Param("contrasena") String contrasena);
+	Usuario findByDni(String dni);
 	boolean existsByUsernameAndContrasena(@Param("username") String username, @Param("contrasena") String contrasena);
 }

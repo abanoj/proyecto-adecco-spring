@@ -22,6 +22,10 @@ public class Asignatura {
 		this.id = id;
 	}
 
+	public Asignatura(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public Asignatura(String nombre, int titular) {
 		this.nombre = nombre;
 		this.titular = titular;

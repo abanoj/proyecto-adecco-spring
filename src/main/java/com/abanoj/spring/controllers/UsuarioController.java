@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abanoj.spring.repositories.UsuarioRepository;
+import com.abanoj.spring.services.UsuarioService;
 import com.abanoj.spring.entities.Usuario;
-import com.abanoj.spring.jwt.JwtUtils;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -26,57 +24,59 @@ import com.abanoj.spring.jwt.JwtUtils;
 public class UsuarioController {
 
 	@Autowired
-	private UsuarioRepository repository;
+	private UsuarioService usuarioService;
 	
 	@GetMapping("/all")
-	public List<Usuario> allUsers(){
-		return repository.findAll();
+	public ResponseEntity<List<Usuario>> allUsers(){
+		List<Usuario> usuarios = usuarioService.findAll();
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
 	}
 	
-	@GetMapping("/{username}")
-	public Usuario findByUsername(@PathVariable("username") String username){
-		return repository.findByUsername(username);
+	@GetMapping("/{id}")
+	public ResponseEntity<Usuario> findById(@PathVariable("id") Integer id){
+		Usuario usuario = usuarioService.getOne(id);
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
 	
+	@GetMapping("/username/{username}")
+	public ResponseEntity<Usuario> findByUsername(@PathVariable("username") String username){
+		Usuario usuario = usuarioService.getByUsername(username);
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
 	
-	@PutMapping("/pass/{username}")
-	public Usuario updatePassword(@PathVariable("username") String username, @RequestBody Usuario usuario) {
-		Usuario usuarioAux = findByUsername(username);
+	@GetMapping("/dni/{dni}")
+	public ResponseEntity<Usuario> findByDNI(@PathVariable("dni") String dni){
+		Usuario usuario = usuarioService.getByDNI(dni);
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
+	
+	@PostMapping("/")
+	public ResponseEntity<?> save(@RequestBody Usuario usuario){
+		usuarioService.save(usuario);
+		return new ResponseEntity<>("Usuario save successfully", HttpStatus.OK);
+	}
+
+	@PutMapping("/pass/")
+	public ResponseEntity<?> updatePassword(@RequestBody Usuario usuario) {
+		Usuario usuarioAux = usuarioService.getByUsername(usuario.getUsername());
 		usuarioAux.setContrasena(usuario.getContrasena());
-		return repository.save(usuarioAux);
+		usuarioService.save(usuarioAux);
+		return new ResponseEntity<>("Password change successfully!", HttpStatus.OK);
 	}
 	
-	@GetMapping("/")
-	public ResponseEntity<Usuario> getUser(@RequestHeader("Authorization") String token){
-		String authToken = token.substring(7); //Eliiminar Bearer del encabezado
-		String username = JwtUtils.extractUsername(authToken);
-		
-		Usuario usuario = repository.findByUsername(username);
-		if(usuario != null) {
-			return ResponseEntity.ok(usuario);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+	@DeleteMapping("/{username}")
+	public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
+		Usuario usuario = usuarioService.getByUsername(username);
+		usuarioService.delete(usuario);
+		return new ResponseEntity<>("User delete successfully", HttpStatus.OK);
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody Usuario usuario) {
-		if(repository.existsByUsernameAndContrasena(usuario.getUsername(), usuario.getContrasena())) {
-			String token = JwtUtils.generateAuthToken(usuario.getUsername());
-			System.out.println("token: " + token);
-			return ResponseEntity.ok(token);
+	public ResponseEntity<?> login(@RequestBody Usuario usuario){
+		if(!usuarioService.checkLogin(usuario.getUsername(), usuario.getContrasena())) {
+			return new ResponseEntity<>("Username or password incorrect!", HttpStatus.UNAUTHORIZED);
 		}
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-	}
-
-	/*@PostMapping("/login")
-	public Usuario login(@RequestBody Usuario usuario) {
-		return repository.findByUsernameAndContrasena(usuario.getUsername(), usuario.getContrasena());
-	}*/
-	
-	@DeleteMapping("/{username}")
-	public void deleteUser(@PathVariable("username") String username) {
-		Usuario usuario = findByUsername(username);
-		repository.delete(usuario);
+		Usuario user = usuarioService.login(usuario.getUsername(), usuario.getContrasena());
+		return new ResponseEntity<Usuario>(user, HttpStatus.OK);
 	}
 }
