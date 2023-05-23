@@ -1,12 +1,16 @@
 package com.abanoj.spring.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.abanoj.spring.entities.Asignatura;
+import com.abanoj.spring.entities.Curso;
 import com.abanoj.spring.entities.Nota;
+import com.abanoj.spring.entities.Usuario;
 import com.abanoj.spring.repositories.NotaRepository;
 
 
@@ -17,17 +21,36 @@ public class NotaService {
 	@Autowired
 	private NotaRepository notaRepository;
 	
-	
-	public List<Nota> getByCursoAndAsignatura(int idC, int idA) {
-		return notaRepository.findByIdCursoAndIdAsignatura(idC, idA);
+	public List<Nota> getByCursoAndAlumno(Curso curso, Usuario alumno){
+		return notaRepository.findByCursoAndAlumno(curso, alumno);
 	}
-	
-	public List<Nota> getByCursoAndAlumno(int idC, int idA){
-		return notaRepository.findByIdCursoAndIdAlumno(idC, idA);
+
+	public List<Nota> getByCursoAndAsignatura(Curso curso, Asignatura asignatura){
+		return notaRepository.findByCursoAndAsignatura(curso, asignatura);
 	}
+
+	public List<Nota> getByAsignaturaAndAlumno(Asignatura asignatura, Usuario alumno){
+		return notaRepository.findByAsignaturaAndAlumno(asignatura, alumno);
+	}	
 	
-	public List<Nota> getByAsignaturaAndAlumno(int idA, int idU){
-		return notaRepository.findByIdAsignaturaAndIdAlumno(idA, idU);
+	public List<Nota> findNotas(String dniAlumno, String nombreCurso, String nombreAsignatura){
+		List<Nota> notas = notaRepository.findAll();
+		if(dniAlumno != null && dniAlumno != "") {
+			notas = notas.stream().filter(nota -> nota.getAlumno().getDni().equals(dniAlumno)).collect(Collectors.toList());;
+		}
+		if(nombreCurso != null && nombreCurso != "") {
+			notas = notas.stream().filter(nota -> nota.getCurso().getNombre().equals(nombreCurso)).collect(Collectors.toList());;
+		}
+		if(nombreAsignatura != null && nombreAsignatura != "") {
+			notas = notas.stream().filter(nota -> nota.getAsignatura().getNombre().equals(nombreAsignatura)).collect(Collectors.toList());;
+		}
+	
+//		List<Nota> filterNotas = notas.stream()
+//				.filter(nota -> nota.getAlumno().getDni().equals(dniAlumno))
+//				.filter(nota -> nota.getCurso().getNombre().equals(nombreCurso))
+//				.filter(nota -> nota.getAsignatura().getNombre().equals(nombreAsignatura))
+//				.collect(Collectors.toList());
+		return notas;
 	}
 	
 	public boolean existsById(int id) {

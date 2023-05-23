@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abanoj.spring.services.NotaService;
+import com.abanoj.spring.entities.Asignatura;
+import com.abanoj.spring.entities.Curso;
 import com.abanoj.spring.entities.Nota;
+import com.abanoj.spring.entities.Usuario;
 
 @RestController
 @RequestMapping("/api/nota")
@@ -26,21 +30,28 @@ public class NotaController {
 	@Autowired
 	private NotaService notaService;
 
+	@GetMapping("/")
+	public ResponseEntity<List<Nota>> findNotas(@RequestParam(required = false) String dniUsuario,
+			@RequestParam(required = false) String nombreCurso, @RequestParam(required = false) String nombreAsignatura){
+		List<Nota> notas = notaService.findNotas(dniUsuario, nombreCurso, nombreAsignatura);
+		return new ResponseEntity<List<Nota>>(notas, HttpStatus.OK);
+	}
+	
 	@GetMapping("/curso/{idC}/asignatura/{idA}")
 	public ResponseEntity<List<Nota>> allNotasCursoAsignatura(@PathVariable("idC") int idC, @PathVariable("idA") int idA){
-		List<Nota> notas = notaService.getByCursoAndAsignatura(idC, idA);
+		List<Nota> notas = notaService.getByCursoAndAsignatura(new Curso(idC), new Asignatura(idA));
 		return new ResponseEntity<List<Nota>>(notas, HttpStatus.OK);
 	}
 	
 	@GetMapping("/curso/{idC}/alumno/{idA}")
 	public ResponseEntity<List<Nota>> allNotasCursoAlumno(@PathVariable("idC") int idC, @PathVariable("idA") int idA){
-		List<Nota> notas = notaService.getByCursoAndAlumno(idC, idA);
+		List<Nota> notas = notaService.getByCursoAndAlumno(new Curso(idC), new Usuario(idA));
 		return new ResponseEntity<List<Nota>>(notas, HttpStatus.OK);
 	}
 
 	@GetMapping("/asignatura/{idA}/alumno/{idU}")
 	public ResponseEntity<List<Nota>> allNotasAsignaturaAlumno(@PathVariable("idA") int idA, @PathVariable("idU") int idU){
-		List<Nota> notas = notaService.getByAsignaturaAndAlumno(idA, idU);
+		List<Nota> notas = notaService.getByAsignaturaAndAlumno(new Asignatura(idA), new Usuario(idU));
 		return new ResponseEntity<List<Nota>>(notas, HttpStatus.OK);
 	}
 

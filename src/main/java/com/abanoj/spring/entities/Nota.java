@@ -9,38 +9,18 @@ public class Nota {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private int idAlumno;
-	private int idAsignatura;
-	private int idCurso;
+	@ManyToOne
+	@JoinColumn(name = "id_alumno")
+	private Usuario alumno;
+	@ManyToOne
+	@JoinColumn(name = "id_asignatura")
+	private Asignatura asignatura;
+	@ManyToOne
+	@JoinColumn(name = "id_curso")
+	private Curso curso;
 	private float nota;
 	
 	public Nota() {}
-
-	public Nota(int id) {
-		this.id = id;
-	}
-
-	public Nota(int idAlumno, int idAsignatura, int idCurso) {
-		this.idAlumno = idAlumno;
-		this.idAsignatura = idAsignatura;
-		this.idCurso = idCurso;
-	}
-	
-	
-	public Nota(int idAlumno, int idAsignatura, int idCurso, float nota) {
-		this.idAlumno = idAlumno;
-		this.idAsignatura = idAsignatura;
-		this.idCurso = idCurso;
-		this.nota = nota;
-	}
-
-	public Nota(int id, int idAlumno, int idAsignatura, int idCurso, float nota) {
-		this.id = id;
-		this.idAlumno = idAlumno;
-		this.idAsignatura = idAsignatura;
-		this.idCurso = idCurso;
-		this.nota = nota;
-	}
 
 	public int getId() {
 		return id;
@@ -50,28 +30,28 @@ public class Nota {
 		this.id = id;
 	}
 
-	public int getIdAlumno() {
-		return idAlumno;
+	public Usuario getAlumno() {
+		return alumno;
 	}
 
-	public void setIdAlumno(int idAlumno) {
-		this.idAlumno = idAlumno;
+	public void setAlumno(Usuario alumno) {
+		this.alumno = alumno;
 	}
 
-	public int getIdAsignatura() {
-		return idAsignatura;
+	public Asignatura getAsignatura() {
+		return asignatura;
 	}
 
-	public void setIdAsignatura(int idAsignatura) {
-		this.idAsignatura = idAsignatura;
+	public void setAsignatura(Asignatura asignatura) {
+		this.asignatura = asignatura;
 	}
 
-	public int getIdCurso() {
-		return idCurso;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setIdCurso(int idCurso) {
-		this.idCurso = idCurso;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 
 	public float getNota() {
@@ -81,5 +61,6 @@ public class Nota {
 	public void setNota(float nota) {
 		this.nota = nota;
 	}
+
 
 }
