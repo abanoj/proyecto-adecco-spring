@@ -43,13 +43,7 @@ public class NotaService {
 		}
 		if(nombreAsignatura != null && nombreAsignatura != "") {
 			notas = notas.stream().filter(nota -> nota.getAsignatura().getNombre().equals(nombreAsignatura)).collect(Collectors.toList());;
-		}
-	
-//		List<Nota> filterNotas = notas.stream()
-//				.filter(nota -> nota.getAlumno().getDni().equals(dniAlumno))
-//				.filter(nota -> nota.getCurso().getNombre().equals(nombreCurso))
-//				.filter(nota -> nota.getAsignatura().getNombre().equals(nombreAsignatura))
-//				.collect(Collectors.toList());
+		}	
 		return notas;
 	}
 	

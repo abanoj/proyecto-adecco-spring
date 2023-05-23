@@ -13,5 +13,4 @@ public interface NotaRepository extends JpaRepository<Nota,Integer> {
 	List<Nota> findByCursoAndAlumno(Curso curso, Usuario alumno);
 	List<Nota> findByCursoAndAsignatura(Curso curso, Asignatura asignatura);
 	List<Nota> findByAsignaturaAndAlumno(Asignatura asignatura, Usuario alumno);
-	//List<Nota> findByDniAlumnoAndNombreCursoAndNombreAsignatura(String dniAlumno, String nombreCurso, String nombreAsignatura);
 }

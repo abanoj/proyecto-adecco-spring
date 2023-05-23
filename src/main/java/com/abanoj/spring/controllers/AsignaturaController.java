@@ -1,5 +1,7 @@
 package com.abanoj.spring.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,13 @@ public class AsignaturaController {
 	
 	@Autowired
 	private AsignaturaService asignaturaService;
-		
+	
+	@GetMapping("/")
+	public ResponseEntity<List<Asignatura>> findAll(){
+		List<Asignatura> asignaturas = asignaturaService.findAll();
+		return new ResponseEntity<List<Asignatura>>(asignaturas, HttpStatus.OK);
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Asignatura> findById(@PathVariable("id") int id) {
 		Asignatura asignatura = asignaturaService.getById(id);

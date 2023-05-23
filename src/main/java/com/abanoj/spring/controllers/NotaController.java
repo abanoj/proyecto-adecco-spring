@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abanoj.spring.services.NotaService;
+import com.abanoj.spring.dto.Message;
 import com.abanoj.spring.entities.Asignatura;
 import com.abanoj.spring.entities.Curso;
 import com.abanoj.spring.entities.Nota;
@@ -58,25 +59,25 @@ public class NotaController {
 	@PostMapping("/")
 	public ResponseEntity<?> addNota(@RequestBody Nota nota) {
 		notaService.save(nota);
-		return new ResponseEntity<>("Nota saved successfully!", HttpStatus.OK);
+		return new ResponseEntity<>(new Message("Nota saved successfully!"), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateNota(@PathVariable("id") int id, @RequestBody Nota nota) {
 		if(!notaService.existsById(id)) {
-			return new ResponseEntity<>("Nota does not exist!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new Message("Nota does not exist!"), HttpStatus.NOT_FOUND);
 		}
 		nota.setId(id);
 		notaService.save(nota);
-		return new ResponseEntity<>("Nota updated successfully!", HttpStatus.OK);
+		return new ResponseEntity<>(new Message("Nota updated successfully!"), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteNota(@PathVariable("id") int id) {
 		if(!notaService.existsById(id)) {
-			return new ResponseEntity<>("Nota does not exist!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new Message("Nota does not exist!"), HttpStatus.NOT_FOUND);
 		}
 		notaService.deleteById(id);
-		return new ResponseEntity<>("Nota deleted succesfully!", HttpStatus.OK);
+		return new ResponseEntity<>(new Message("Nota deleted succesfully!"), HttpStatus.OK);
 	}
 }

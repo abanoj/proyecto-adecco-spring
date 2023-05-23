@@ -1,5 +1,7 @@
 package com.abanoj.spring.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,13 @@ public class CursoController {
 
 	@Autowired
 	private CursoService cursoService;
-			
+	
+	@GetMapping("/")
+	public ResponseEntity<List<Curso>> findAll(){
+		List<Curso> cursos = cursoService.getAll();
+		return new ResponseEntity<List<Curso>>(cursos, HttpStatus.OK);
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Curso> findById(@PathVariable("id") int id) {
 		Curso curso = cursoService.getById(id);
