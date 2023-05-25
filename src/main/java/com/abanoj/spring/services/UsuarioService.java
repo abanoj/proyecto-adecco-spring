@@ -36,6 +36,10 @@ public class UsuarioService {
 		return usuarioRepository.existsByUsernameAndContrasena(username, password);
 	}
 	
+	public boolean checkUsername(String username) {
+		return usuarioRepository.existsByUsername(username);
+	}
+	
 	public Usuario login(String username, String password) {
 		return usuarioRepository.findByUsernameAndContrasena(username, password);
 	}

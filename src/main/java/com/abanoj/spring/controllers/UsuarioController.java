@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abanoj.spring.services.UsuarioService;
+import com.abanoj.spring.dto.AuthToken;
+import com.abanoj.spring.dto.Message;
 import com.abanoj.spring.entities.Usuario;
+import com.abanoj.spring.jwt.JwtUtils;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -25,6 +28,8 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private JwtUtils jwtUtils;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Usuario>> allUsers(){
@@ -74,9 +79,21 @@ public class UsuarioController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Usuario usuario){
 		if(!usuarioService.checkLogin(usuario.getUsername(), usuario.getContrasena())) {
-			return new ResponseEntity<>("Username or password incorrect!", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(new Message("Username or password incorrect!"), HttpStatus.UNAUTHORIZED);
 		}
-		Usuario user = usuarioService.login(usuario.getUsername(), usuario.getContrasena());
-		return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+		String token = jwtUtils.generateAuthToken(usuario.getUsername());
+		return ResponseEntity.ok(new AuthToken(token));
+		//Usuario user = usuarioService.getByUsername(usuario.getUsername());
+		//return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+	}
+	
+	@PostMapping("/token")
+	public ResponseEntity<?> getByToken(@RequestBody String token){
+		String username = jwtUtils.extractUsername(token);
+		if(!usuarioService.checkUsername(username)){
+			return new ResponseEntity<>(new Message("Token incorrect!"), HttpStatus.UNAUTHORIZED);
+		}
+		Usuario usuario = usuarioService.getByUsername(username);
+		return new ResponseEntity<Usuario>(usuario ,HttpStatus.OK);
 	}
 }
