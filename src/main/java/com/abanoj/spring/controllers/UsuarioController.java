@@ -83,8 +83,6 @@ public class UsuarioController {
 		}
 		String token = jwtUtils.generateAuthToken(usuario.getUsername());
 		return ResponseEntity.ok(new AuthToken(token));
-		//Usuario user = usuarioService.getByUsername(usuario.getUsername());
-		//return new ResponseEntity<Usuario>(user, HttpStatus.OK);
 	}
 	
 	@PostMapping("/token")
